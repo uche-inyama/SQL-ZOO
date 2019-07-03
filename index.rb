@@ -220,30 +220,108 @@ ORDER BY
 CASE WHEN subject IN ('Physics', 'Chemistry') THEN 1 ELSE 0 END, subject, winner;
 OR subject LIKE 'Literature' AND yr >= 2004;
 
-#SUM AND COUNT
 
+
+###SELECT WITHIN SELECT 
+
+#1.
+SELECT name FROM world
+WHERE population >
+(SELECT population FROM world
+WHERE name='Russia');
+
+
+#2.
+SELECT name
+     FROM world 
+     WHERE continent LIKE 'Europe' AND gdp/population > (
+SELECT gdp/population
+    FROM world 
+    WHERE name = 'united kingdom'
+);
+
+#3.
+SELECT name, continent FROM
+world WHERE continent IN (
+
+SELECT  continent FROM 
+world WHERE name LIKE 'Argentina' 
+   OR name LIKE 'Australia' )
+ORDER BY name;
+
+#4.
+SELECT name, population FROM world
+WHERE population > (SELECT population FROM world
+WHERE name LIKE 'Canada') 
+AND population < (SELECT population FROM world
+WHERE name LIKE 'Poland');
+
+#5.
+SELECT name, 
+            CONCAT(ROUND(100*population/(SELECT  population FROM 
+    world
+    WHERE name = 'Germany')), '%') 
+    FROM world 
+    WHERE continent = 'Europe';
+
+#6.
+SELECT name FROM world
+WHERE gdp > ( 
+SELECT MAX(gdp) FROM world
+WHERE continent = 'Europe');
+
+#7.
+SELECT continent, name, area
+FROM world
+WHERE area IN (SELECT MAX(area) FROM world GROUP BY continent)
+
+#8.
+SELECT continent, MIN(name)
+FROM world
+GROUP BY continent;
+
+
+#9. 
+SELECT name, continent, population FROM world
+WHERE continent NOT IN (SELECT  DISTINCT continent FROM world
+WHERE population > 25000000)
+
+
+
+
+###SUM AND COUNT
+
+#1.
 SELECT SUM(population)
 FROM world;
 
+#2.
 SELECT DISTINCT continent FROM world;
 
+#3.
 SELECT SUM(gdp) FROM world
 WHERE continent = 'Africa'
 
+#4.
 SELECT COUNT(name) FROM world
 WHERE area >= 1000000
 
+#5.
 SELECT SUM(population) FROM world 
 WHERE name IN ('Estonia', 'Latvia', 'Lithuania');
 
+#6.
 SELECT continent, COUNT(name) FROM world
 GROUP BY continent;
 
+#7.
 SELECT continent, COUNT(name) FROM world
 WHERE population >= 10000000
 GROUP BY continent;
 
+#8.
 SELECT continent
   FROM world
   GROUP BY continent
 HAVING SUM(population) > 100000000
+
