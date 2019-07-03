@@ -286,7 +286,13 @@ SELECT name, continent, population FROM world
 WHERE continent NOT IN (SELECT  DISTINCT continent FROM world
 WHERE population > 25000000)
 
+### JOIN
 
+#7. 
+SELECT Player 
+FROM goal 
+JOIN game ON (game.id = goal.matchid)
+WHERE stadium LIKE 'NATIONAL STADIUM, WARSAW';
 
 
 ###SUM AND COUNT
