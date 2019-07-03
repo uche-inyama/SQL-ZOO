@@ -221,7 +221,6 @@ CASE WHEN subject IN ('Physics', 'Chemistry') THEN 1 ELSE 0 END, subject, winner
 OR subject LIKE 'Literature' AND yr >= 2004;
 
 
-
 ###SELECT WITHIN SELECT 
 
 #1.
@@ -229,7 +228,6 @@ SELECT name FROM world
 WHERE population >
 (SELECT population FROM world
 WHERE name='Russia');
-
 
 #2.
 SELECT name
@@ -257,12 +255,11 @@ AND population < (SELECT population FROM world
 WHERE name LIKE 'Poland');
 
 #5.
-SELECT name, 
-            CONCAT(ROUND(100*population/(SELECT  population FROM 
-    world
-    WHERE name = 'Germany')), '%') 
-    FROM world 
-    WHERE continent = 'Europe';
+SELECT name, CONCAT(ROUND(100*population/(SELECT  population FROM 
+world
+WHERE name = 'Germany')), '%') 
+FROM world 
+WHERE continent = 'Europe';
 
 #6.
 SELECT name FROM world
@@ -280,19 +277,10 @@ SELECT continent, MIN(name)
 FROM world
 GROUP BY continent;
 
-
 #9. 
 SELECT name, continent, population FROM world
 WHERE continent NOT IN (SELECT  DISTINCT continent FROM world
 WHERE population > 25000000)
-
-### JOIN
-
-#7. 
-SELECT Player 
-FROM goal 
-JOIN game ON (game.id = goal.matchid)
-WHERE stadium LIKE 'NATIONAL STADIUM, WARSAW';
 
 
 ###SUM AND COUNT
@@ -330,4 +318,143 @@ SELECT continent
   FROM world
   GROUP BY continent
 HAVING SUM(population) > 100000000
+
+
+### JOIN
+
+# 1.
+SELECT matchid, player 
+  FROM goal 
+  WHERE teamid = 'GER';
+
+# 2. 
+SELECT id, stadium, team1, team2
+  FROM game
+  WHERE id = '1012';
+
+# 3. 
+SELECT player, teamid, stadium, mdate
+  FROM game 
+  JOIN goal ON (game.id=goal.matchid)
+  WHERE goal.teamid = 'GER';
+  
+# 4. 
+SELECT team1, team2, player
+  FROM game 
+  JOIN goal ON (game.id=goal.matchid)
+  WHERE goal.player LIKE 'Mario%';
+  
+# 5. 
+SELECT player, teamid, coach, gtime
+  FROM goal 
+  JOIN eteam ON (goal.teamid=eteam.id)
+  WHERE gtime <= 10;
+
+# 6. 
+SELECT mdate, teamname
+  FROM game
+  JOIN eteam ON (team1=eteam.id)
+  WHERE coach LIKE 'Fernando Santos';
+
+#7. 
+SELECT Player 
+FROM goal 
+JOIN game ON (game.id = goal.matchid)
+WHERE stadium LIKE 'NATIONAL STADIUM, WARSAW';
+
+
+#MORE JOIN
+
+# 1. 
+SELECT id, title
+ FROM movie
+ WHERE yr=1962;
+
+# 2. 
+SELECT yr
+ FROM movie
+ WHERE title LIKE 'Citizen Kane';
+
+# 3. 
+SELECT id, title, yr
+ FROM movie
+ WHERE title LIKE 'Star Trek%';
+
+# 4. 
+SELECT id
+  FROM actor
+  WHERE name LIKE 'Glenn Close'
+
+# 5. 
+select id 
+  FROM movie
+  WHERE title LIKE 'Casablanca';
+
+# 6. 
+SELECT name
+  FROM casting
+  JOIN actor ON casting.actorid=actor.id
+  WHERE movieid=11768;
+
+# 7. 
+SELECT name
+  FROM casting
+  JOIN actor ON casting.actorid=actor.id
+  WHERE movieid=(SELECT id FROM movie WHERE title='Alien')
+
+# 8. 
+SELECT movie.title
+  FROM movie
+  JOIN casting ON movie.id=casting.movieid
+  JOIN actor ON casting.actorid=actor.id
+  WHERE actor.id = (SELECT id FROM actor WHERE name LIKE 'Harrison Ford');
+
+
+### NULL
+
+#1.
+SELECT name FROM teacher
+WHERE dept IS NULL;
+
+#2.
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+ON (teacher.dept=dept.id);
+
+#3.
+SELECT teacher.name, dept.name
+ FROM teacher LEFT JOIN dept
+ON (teacher.dept=dept.id);
+
+#4.
+SELECT teacher.name, dept.name
+ FROM teacher RIGHT JOIN dept
+ON (teacher.dept=dept.id);
+
+#5.
+SELECT teacher.name, COALESCE(mobile,'07986 444 2266')
+FROM teacher;
+
+#6.
+SELECT teacher.name, COALESCE(dept.name, 'None') 
+FROM teacher
+LEFT JOIN dept ON teacher.dept = dept.id;
+
+#7.
+SELECT COUNT(name), COUNT(mobile) from teacher;
+
+#8.
+SELECT dept.name, COUNT(teacher.name) FROM teacher
+RIGHT JOIN  dept ON teacher.dept = dept.id
+GROUP BY dept.name;
+
+#9.
+SELECT name, CASE WHEN dept=1 OR dept=2 THEN 'Sci' ELSE 'Art' END
+FROM teacher;
+
+#10.
+SELECT name, CASE WHEN dept=1 OR dept=2 THEN 'Sci' WHEN dept=3 THEN 'Art'ELSE 'None' END
+FROM teacher;
+
+
 
