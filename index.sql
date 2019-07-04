@@ -352,6 +352,38 @@ FROM goal
 JOIN game ON (game.id = goal.matchid)
 WHERE stadium LIKE 'NATIONAL STADIUM, WARSAW';
 
+# 8. 
+SELECT DISTINCT player
+FROM game 
+JOIN goal ON matchid = id 
+WHERE (team1='GER' OR team2='GER') AND teamid<>'GER'
+
+# 9. 
+SELECT teamname, COUNT(*) AS goals
+FROM eteam 
+JOIN goal ON id=teamid
+GROUP BY teamname
+
+# 10.
+SELECT stadium, COUNT(*) as goals
+FROM game 
+JOIN goal ON game.id=goal.matchid
+GROUP BY stadium
+
+# 11.
+SELECT matchid, mdate, COUNT(teamid)
+FROM game 
+JOIN goal ON matchid = id 
+WHERE (team1 = 'POL' OR team2 = 'POL')
+GROUP BY matchid, mdate
+
+# 12.
+SELECT matchid, mdate, COUNT(matchid)
+FROM game 
+JOIN goal ON id=matchid
+WHERE teamid = 'GER'
+GROUP BY matchid, mdate
+
 
 ### MORE JOIN
 
