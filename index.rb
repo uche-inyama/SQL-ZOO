@@ -226,11 +226,11 @@ WHERE name='Russia');
 
 #2.
 SELECT name
-  FROM world 
-  WHERE continent LIKE 'Europe' AND gdp/population > (
+FROM world 
+WHERE continent LIKE 'Europe' AND gdp/population > (
 SELECT gdp/population
-  FROM world 
-  WHERE name = 'united kingdom'
+FROM world 
+WHERE name = 'united kingdom'
 );
 
 #3.
@@ -308,8 +308,8 @@ GROUP BY continent;
 
 #8.
 SELECT continent
-  FROM world
-  GROUP BY continent
+FROM world
+GROUP BY continent
 HAVING SUM(population) > 100000000
 
 
@@ -317,37 +317,37 @@ HAVING SUM(population) > 100000000
 
 # 1.
 SELECT matchid, player 
-  FROM goal 
-  WHERE teamid = 'GER';
+FROM goal 
+WHERE teamid = 'GER';
 
 # 2. 
 SELECT id, stadium, team1, team2
-  FROM game
-  WHERE id = '1012';
+FROM game
+WHERE id = '1012';
 
 # 3. 
 SELECT player, teamid, stadium, mdate
-  FROM game 
-  JOIN goal ON (game.id=goal.matchid)
-  WHERE goal.teamid = 'GER';
+FROM game 
+JOIN goal ON (game.id=goal.matchid)
+WHERE goal.teamid = 'GER';
   
 # 4. 
 SELECT team1, team2, player
-  FROM game 
-  JOIN goal ON (game.id=goal.matchid)
-  WHERE goal.player LIKE 'Mario%';
+FROM game 
+JOIN goal ON (game.id=goal.matchid)
+WHERE goal.player LIKE 'Mario%';
   
 # 5. 
 SELECT player, teamid, coach, gtime
-  FROM goal 
-  JOIN eteam ON (goal.teamid=eteam.id)
-  WHERE gtime <= 10;
+FROM goal 
+JOIN eteam ON (goal.teamid=eteam.id)
+WHERE gtime <= 10;
 
 # 6. 
 SELECT mdate, teamname
-  FROM game
-  JOIN eteam ON (team1=eteam.id)
-  WHERE coach LIKE 'Fernando Santos';
+FROM game
+JOIN eteam ON (team1=eteam.id)
+WHERE coach LIKE 'Fernando Santos';
 
 #7. 
 SELECT Player 
@@ -360,47 +360,47 @@ WHERE stadium LIKE 'NATIONAL STADIUM, WARSAW';
 
 # 1. 
 SELECT id, title
- FROM movie
- WHERE yr=1962;
+FROM movie
+WHERE yr=1962;
 
 # 2. 
 SELECT yr
- FROM movie
- WHERE title LIKE 'Citizen Kane';
+FROM movie
+WHERE title LIKE 'Citizen Kane';
 
 # 3. 
 SELECT id, title, yr
- FROM movie
- WHERE title LIKE 'Star Trek%';
+FROM movie
+WHERE title LIKE 'Star Trek%';
 
 # 4. 
 SELECT id
-  FROM actor
-  WHERE name LIKE 'Glenn Close'
+FROM actor
+WHERE name LIKE 'Glenn Close'
 
 # 5. 
 select id 
-  FROM movie
-  WHERE title LIKE 'Casablanca';
+FROM movie
+WHERE title LIKE 'Casablanca';
 
 # 6. 
 SELECT name
-  FROM casting
-  JOIN actor ON casting.actorid=actor.id
-  WHERE movieid=11768;
+FROM casting
+JOIN actor ON casting.actorid=actor.id
+WHERE movieid=11768;
 
 # 7. 
 SELECT name
-  FROM casting
-  JOIN actor ON casting.actorid=actor.id
-  WHERE movieid=(SELECT id FROM movie WHERE title='Alien')
+FROM casting
+JOIN actor ON casting.actorid=actor.id
+WHERE movieid=(SELECT id FROM movie WHERE title='Alien')
 
 # 8. 
 SELECT movie.title
-  FROM movie
-  JOIN casting ON movie.id=casting.movieid
-  JOIN actor ON casting.actorid=actor.id
-  WHERE actor.id = (SELECT id FROM actor WHERE name LIKE 'Harrison Ford');
+FROM movie
+JOIN casting ON movie.id=casting.movieid
+JOIN actor ON casting.actorid=actor.id
+WHERE actor.id = (SELECT id FROM actor WHERE name LIKE 'Harrison Ford');
 
 
 ### NULL
@@ -411,17 +411,17 @@ WHERE dept IS NULL;
 
 #2.
 SELECT teacher.name, dept.name
- FROM teacher INNER JOIN dept
+FROM teacher INNER JOIN dept
 ON (teacher.dept=dept.id);
 
 #3.
 SELECT teacher.name, dept.name
- FROM teacher LEFT JOIN dept
+FROM teacher LEFT JOIN dept
 ON (teacher.dept=dept.id);
 
 #4.
 SELECT teacher.name, dept.name
- FROM teacher RIGHT JOIN dept
+FROM teacher RIGHT JOIN dept
 ON (teacher.dept=dept.id);
 
 #5.
