@@ -53,7 +53,6 @@ Find the countries that end with land
 SELECT name FROM world
 WHERE name LIKE '%land';
 
-
 Find the countries that start with C and end with ia
 SELECT name FROM world
 WHERE name LIKE 'c%' 
@@ -175,11 +174,7 @@ AND subject LIKE 'Literature';
 
 #6.
 SELECT * FROM nobel
- WHERE winner IN ('Theodore Roosevelt',
-                'Woodrow Wilson',
-                'Jimmy Carter',
-                'Barack Obama'
-            );
+WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter', 'Barack Obama');
 
 #7.            
 SELECT winner FROM nobel
@@ -209,9 +204,9 @@ WHERE winner LIKE '%NEILL';
 
 #13.
 SELECT winner, yr, subject
-  FROM nobel
-  WHERE winner LIKE 'Sir%'
-  ORDER BY yr DESC, winner;
+FROM nobel
+WHERE winner LIKE 'Sir%'
+ORDER BY yr DESC, winner;
 
 #14.
 SELECT winner, subject FROM nobel
@@ -231,20 +226,18 @@ WHERE name='Russia');
 
 #2.
 SELECT name
-     FROM world 
-     WHERE continent LIKE 'Europe' AND gdp/population > (
+  FROM world 
+  WHERE continent LIKE 'Europe' AND gdp/population > (
 SELECT gdp/population
-    FROM world 
-    WHERE name = 'united kingdom'
+  FROM world 
+  WHERE name = 'united kingdom'
 );
 
 #3.
 SELECT name, continent FROM
-world WHERE continent IN (
-
-SELECT  continent FROM 
-world WHERE name LIKE 'Argentina' 
-   OR name LIKE 'Australia' )
+world WHERE continent IN (SELECT  continent FROM 
+  world WHERE name LIKE 'Argentina' 
+  OR name LIKE 'Australia')
 ORDER BY name;
 
 #4.
@@ -456,5 +449,30 @@ FROM teacher;
 SELECT name, CASE WHEN dept=1 OR dept=2 THEN 'Sci' WHEN dept=3 THEN 'Art'ELSE 'None' END
 FROM teacher;
 
+###Self Join
 
+#1.
+SELECT COUNT(*) FROM stops;
+
+#2.
+SELECT id FROM stops
+WHERE name LIKE 'Craiglockhart';
+
+#3.
+SELECT id, name
+FROM stops
+JOIN route ON id=stop
+WHERE num = '4' AND company = 'LRT';
+
+#4.
+SELECT company, num, COUNT(*)
+FROM route WHERE stop=149 OR stop=53
+GROUP BY company, num
+HAVING COUNT(*) = 2;
+
+#5.
+SELECT a.company, a.num, a.stop, b.stop
+FROM route a JOIN route b ON
+(a.company=b.company AND a.num=b.num)
+WHERE a.stop=53 AND b.stop = 149;
 
