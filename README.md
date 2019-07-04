@@ -6,8 +6,8 @@ In this project, the outcome is to get conversant with querying a database with 
 2. Querying with constraints, using WHERE and wildcards ('%' and '_').
 3. Filtering and Sorting results, using ORDER BY & GROUP BY.
 4. Using aggregate functions, such as MAX, COUNT and MIN.
-5. Joining different tables with PRIMARY KEY and FOREIGN KEY.
-6.  Different ways of joining tables - INNER JOIN, LEFT JOIN, RIGHT JOIN and SELF JOIN.
+5. Joining different tables with PRIMARY KEY and FOREIGN KEY, although, these two terms were not used explicitly, in the exercise.
+6. Different ways of joining tables - INNER JOIN, LEFT JOIN, RIGHT JOIN and SELF JOIN.
 7. Querying tables that are joined.
 8. How to work with NULL.
 
